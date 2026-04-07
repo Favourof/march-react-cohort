@@ -1,0 +1,8 @@
+.container {
+  width: 50%;
+  margin: auto;
+  border: thin solid black;
+}
+h1 {
+  font-size: 60px;
+}

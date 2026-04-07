@@ -1,0 +1,13 @@
+.container {
+  padding: 10px 20px;
+  border-radius: 12px;
+  border: 0;
+  font-size: 12px;
+  background-color: yellow;
+}
+
+.box {
+  width: 500px;
+  height: 500px;
+  background-color: beige;
+}
