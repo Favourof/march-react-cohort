@@ -6,6 +6,13 @@ import { TodoInput } from "./TodoInput"
 import { TodoList } from "./TodoList"
 import { Userlist } from "./UserList"
 import { UsestateComponent } from "./UsestateComponent"
+import Timer from "./Timer"
+import { Route, Routes } from "react-router-dom"
+import { Home } from "./pages/Home"
+import { About } from "./pages/About"
+import { Contact } from "./pages/Contact"
+import Navbar from "./component/Navbar"
+import { NotFound } from "./component/NotFound"
 
 function App() {
   const [todoArray, setTodoArray] = useState(['jkdsch']);
@@ -33,10 +40,20 @@ function App() {
       <div className={second.box}></div>
       <Button text={"submit"} />
       <Button text={"Log In"} /> */}
-      <div>
+      {/* <div>
         <TodoInput setarr={setTodoArray} arr={todoArray} />
         <TodoList arr={todoArray} />
-      </div>
+      </div> */}
+      {/* <Timer /> */}
+      <Navbar />
+      <Routes>
+        {/* <Route path="/home" element={<h1>This is home page</h1>} /> */}
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contactpage" element={<Contact />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+
 
     </>
   )
