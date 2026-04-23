@@ -9,12 +9,17 @@ export const Product = () => {
         const getProduct = async () => {
             setLoading(true)
             try {
-                const pro = await fetch('https://fakestoreapi.com/products')
+                const pro = await fetch('http://localhost:4000/api/product')
+
+
                 const res = await pro.json()
 
-                if (res.length >= 1) {
-                    setProduct(res)
-                    console.log(res, 'our product');
+                console.log(res.product, 'product.....');
+
+
+                if (res.product && res.product.length >= 1) {
+                    setProduct(res.product)
+                    console.log(res.product, 'our product');
                 }
             } catch (error) {
                 console.log(error);
@@ -35,8 +40,8 @@ export const Product = () => {
             {errorStatus && <p>Error occur while fetching Product</p>}
             {
                 product.length >= 1 && <div>
-                    {product.map((prod, i) => (
-                        <ul key={i}>
+                    {product.map((prod) => (
+                        <ul key={prod._id}>
                             <li>{prod.title}</li>
                             <li>{prod.description}</li>
                             <li>{prod.price}</li>
