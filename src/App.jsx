@@ -14,6 +14,7 @@ import { Contact } from "./pages/Contact"
 import Navbar from "./component/Navbar"
 import { NotFound } from "./component/NotFound"
 import { Product } from "./pages/Product"
+import { AddProduct } from "./pages/AddProduct"
 
 function App() {
   const [todoArray, setTodoArray] = useState(['jkdsch']);
@@ -53,7 +54,9 @@ function App() {
         <Route path="/product" element={<Product />} />
         <Route path="/about" element={<About />} />
         <Route path="/contactpage" element={<Contact />} />
+        <Route path="/addproduct" element={<AddProduct />} />
         <Route path="*" element={<NotFound />} />
+
       </Routes>
 
 
