@@ -15,15 +15,18 @@ export const AddProduct = () => {
             .min(1, "Description is required") // Replaced .nonempty()
             .min(10, "Description must be at least 10 characters"),
 
-        price: z.number({
-            required_error: "Price is required",
-            invalid_type_error: "Price must be a number"
-        }).positive("Price must be greater than zero"), // .nonempty() does not exist for numbers
+        price: z.preprocess(
+            (val) => (val === "" ? undefined : val),
+            z.coerce.number({
+                required_error: "Price is required",
+                invalid_type_error: "Price must be a number"
+            }).positive("Price must be greater than zero")
+        ), // .nonempty() does not exist for numbers
 
         category: z.string()
             .min(1, "Category is required"),
 
-        image: z.string().url("Must be a valid image URL")
+        imageUrl: z.string().url("Must be a valid image URL")
     })
 
     const { register, handleSubmit, formState: { errors } } = useForm({
@@ -70,7 +73,7 @@ export const AddProduct = () => {
                     <div className={styles.formGroup}>
                         <label htmlFor="title">Product Title *</label>
                         <input
-
+                            {...register("title")}
                             // {...register("title", { required: { value: true, message: "title is require" }, minLength: { value: 20, message: "Title must be alleast 20 character" }, })}
                             type="text"
                             id="title"
@@ -84,6 +87,7 @@ export const AddProduct = () => {
                     <div className={styles.formGroup}>
                         <label htmlFor="description">Description *</label>
                         <textarea
+                            {...register("description")}
                             // {...register("description", { required: { value: true, message: "description is required" }, maxLength: { value: 300, message: "Description must not be longer than 300 character" } }, { minLength: { value: 10, message: "Description must be atleast 10 character" } })}
                             id="description"
                             name="description"
@@ -99,6 +103,7 @@ export const AddProduct = () => {
                         <div className={styles.formGroup}>
                             <label htmlFor="price">Price ($) *</label>
                             <input
+                                {...register("price")}
                                 // {...register("price", { required: { value: true, message: "Price is Required" } })}
                                 type="number"
                                 id="price"
@@ -134,6 +139,7 @@ export const AddProduct = () => {
                             placeholder="https://example.com/image.jpg"
 
                         />
+                        {errors?.image && <p style={{ color: "red" }}>{errors.image?.message}</p>}
                     </div>
 
                     {/* Action Buttons */}
