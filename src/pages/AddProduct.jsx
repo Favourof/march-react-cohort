@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './AddProduct.module.css'
 import { useForm } from 'react-hook-form'
-import z from 'zod'
+import z, { url } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 
 
 export const AddProduct = () => {
+    const [preview, setPreview] = useState(null);
+    const [files, setFiles] = useState(null);
     const productSchema = z.object({
         title: z.string()
             .min(1, "Title is required") // Replaced .nonempty()
@@ -26,15 +28,53 @@ export const AddProduct = () => {
         category: z.string()
             .min(1, "Category is required"),
 
-        imageUrl: z.string().url("Must be a valid image URL")
+        // imageUrl: z.string().url("Must be a valid image URL")
     })
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: zodResolver(productSchema)
     })
 
-    const onSubmit = (data) => {
-        console.log(data);
+    const handleImageChange = (e) =>{
+        const file = e.target.files?.[0]
+        setFiles(file)
+        console.log(file);
+        if (file) {
+            setPreview(URL.createObjectURL(file))
+        }
+        
+    }
+    const onSubmit = async (data) => {
+        console.log(data, 'from data');
+        
+        const formdata = new FormData()
+        formdata.append("title", data.title)
+        formdata.append("description", data.description)
+        formdata.append("price", data.price)
+        formdata.append("image", files)
+        formdata.append("category", data.category)
+
+        console.log(formdata);
+        
+
+
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWU4YWJlYmU2MDE0NmQ1YmE0YWRmODkiLCJpYXQiOjE3Nzc5NzU3NTAsImV4cCI6MTc3ODA2MjE1MH0.LD5m0PEG3uT_1JnSAO4htrXB1PefDqc_KHXdoOojjG8"
+        try {
+            const res = await fetch("http://localhost:4000/api/product",{
+            method: "POST",
+            headers:{ "Authorization": `Bearer ${token}`},
+            body:formdata
+            })
+            const response = await res.json()    
+            if (res.ok) {
+                alert("Product Added successfully")
+            }else{
+                alert(response.message)
+            }
+        } catch (error) {
+            console.log(error.message, 'jkdlksjd');
+            alert(error)    
+        }
 
     }
 
@@ -74,7 +114,7 @@ export const AddProduct = () => {
                         <label htmlFor="title">Product Title *</label>
                         <input
                             {...register("title")}
-                            // {...register("title", { required: { value: true, message: "title is require" }, minLength: { value: 20, message: "Title must be alleast 20 character" }, })}
+                            // {...register("title", { required: { value: true, message: "title is require" }, minLength: { value: 20, message: "Title must be at least 20 character" }, })}
                             type="text"
                             id="title"
                             name="title"
@@ -88,7 +128,7 @@ export const AddProduct = () => {
                         <label htmlFor="description">Description *</label>
                         <textarea
                             {...register("description")}
-                            // {...register("description", { required: { value: true, message: "description is required" }, maxLength: { value: 300, message: "Description must not be longer than 300 character" } }, { minLength: { value: 10, message: "Description must be atleast 10 character" } })}
+                            // {...register("description", { required: { value: true, message: "description is required" }, maxLength: { value: 300, message: "Description must not be longer than 300 character" } }, { minLength: { value: 10, message: "Description must be at least 10 character" } })}
                             id="description"
                             name="description"
                             placeholder="Describe your product in detail"
@@ -132,14 +172,17 @@ export const AddProduct = () => {
                     <div className={styles.formGroup}>
                         <label htmlFor="imageUrl">Image URL *</label>
                         <input
-                            {...register("imageUrl")}
-                            type="url"
+                            // {...register("imageUrl")}
+                            type="file"
                             id="imageUrl"
                             name="imageUrl"
                             placeholder="https://example.com/image.jpg"
+                            onChange={handleImageChange}
+                            required
 
                         />
                         {errors?.image && <p style={{ color: "red" }}>{errors.image?.message}</p>}
+                      { preview && <img width={"100%"} height={"200px"} src={preview} alt={"preview"} />}
                     </div>
 
                     {/* Action Buttons */}
