@@ -58,7 +58,7 @@ export const AddProduct = () => {
         
 
 
-        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWU4YWJlYmU2MDE0NmQ1YmE0YWRmODkiLCJpYXQiOjE3Nzc5NzU3NTAsImV4cCI6MTc3ODA2MjE1MH0.LD5m0PEG3uT_1JnSAO4htrXB1PefDqc_KHXdoOojjG8"
+        const token = "...."
         try {
             const res = await fetch("http://localhost:4000/api/product",{
             method: "POST",
