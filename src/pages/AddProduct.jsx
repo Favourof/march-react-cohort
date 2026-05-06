@@ -3,12 +3,15 @@ import styles from './AddProduct.module.css'
 import { useForm } from 'react-hook-form'
 import z, { url } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { privateInstance } from '../api/api';
+import { useNavigate } from 'react-router-dom';
 
 
 
 export const AddProduct = () => {
     const [preview, setPreview] = useState(null);
     const [files, setFiles] = useState(null);
+    const navigate = useNavigate()
     const productSchema = z.object({
         title: z.string()
             .min(1, "Title is required") // Replaced .nonempty()
@@ -58,22 +61,19 @@ export const AddProduct = () => {
         
 
 
-        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWU4YWJlYmU2MDE0NmQ1YmE0YWRmODkiLCJpYXQiOjE3Nzc5NzU3NTAsImV4cCI6MTc3ODA2MjE1MH0.LD5m0PEG3uT_1JnSAO4htrXB1PefDqc_KHXdoOojjG8"
+       
         try {
-            const res = await fetch("http://localhost:4000/api/product",{
-            method: "POST",
-            headers:{ "Authorization": `Bearer ${token}`},
-            body:formdata
-            })
-            const response = await res.json()    
-            if (res.ok) {
-                alert("Product Added successfully")
-            }else{
-                alert(response.message)
+            const res = await privateInstance.post("api/product", formdata)
+            // console.log(res, 'jocjsdjd');
+            
+            // const response = await res.json()    
+            if (res) {
+                alert(res.data.message)
             }
+            navigate("/product")
         } catch (error) {
-            console.log(error.message, 'jkdlksjd');
-            alert(error)    
+            console.log(error?.response?.data, 'jkdlksjd');
+            alert(error?.response)    
         }
 
     }

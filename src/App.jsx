@@ -10,7 +10,7 @@ import Timer from "./Timer"
 import { Route, Routes } from "react-router-dom"
 import { Home } from "./pages/Home"
 import { About } from "./pages/About"
-import { Contact } from "./pages/Contact"
+import { Login } from "./pages/Login"
 import Navbar from "./component/Navbar"
 import { NotFound } from "./component/NotFound"
 import { Product } from "./pages/Product"
@@ -53,7 +53,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/product" element={<Product />} />
         <Route path="/about" element={<About />} />
-        <Route path="/contactpage" element={<Contact />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/addproduct" element={<AddProduct />} />
         <Route path="*" element={<NotFound />} />
 
