@@ -1,12 +1,8 @@
 import { useState } from "react"
 import "./App.css"
-import { Button } from "./Button"
-import second from './Button.module.css'
-import { TodoInput } from "./TodoInput"
-import { TodoList } from "./TodoList"
-import { Userlist } from "./UserList"
-import { UsestateComponent } from "./UsestateComponent"
-import Timer from "./Timer"
+
+
+
 import { Route, Routes } from "react-router-dom"
 import { Home } from "./pages/Home"
 import { About } from "./pages/About"
@@ -17,13 +13,7 @@ import { Product } from "./pages/Product"
 import { AddProduct } from "./pages/AddProduct"
 
 function App() {
-  const [todoArray, setTodoArray] = useState(['jkdsch']);
-  console.log(todoArray);
-
-  const h1 = {
-    color: "yellow",
-    backgroundColor: "black"
-  }
+ 
 
 
 
