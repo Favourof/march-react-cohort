@@ -1,31 +1,23 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useContext, useEffect, useState } from 'react'
-import authContext from '../context/authContext';
+import { useContext } from "react";
+import authContext from "../context/authContext";
 
 export const Home = () => {
-    const [count, setCount] = useState(1);
-    const [monitor, setMonitor] = useState(true);
-    const {name, email, setCart, cart}= useContext(authContext)
-
-    useEffect(() => {
-        const Timer = setInterval(() => {
-            setCount(count + 1)
-            console.log("Hello I am runing");
-
-        }, 1000);
-
-        return () => {
-            clearInterval(Timer)
-        }
-    }, [monitor])
+    const {user} = useContext(authContext)
+ 
 
 
     return (
-        <div>Home {count}
-        <p>name{name}</p>
-        <p>Email{email}</p>
-            <button onClick={() => setMonitor(prev => !prev)}>Run</button>
-             <button onClick={()=> setCart(cart + 1)}>UpdateCart</button>
+        <div>
+            {
+                user?<div>
+                    
+         <h1>Hi {user.name} welcome</h1>
+        <p>your Age {user.age}</p>
+        <p>Email: {user.email}</p>
+
+                </div>: <p>User not Found, Login to enjoy our service</p>
+            }
+        
         </div>
        
     )

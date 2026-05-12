@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import "./App.css"
 
 
@@ -11,17 +11,19 @@ import Navbar from "./component/Navbar"
 import { NotFound } from "./component/NotFound"
 import { Product } from "./pages/Product"
 import { AddProduct } from "./pages/AddProduct"
+import themeContext from "./context/themeContext";
+
 
 function App() {
  
-
+const {theme}=useContext(themeContext)
 
 
   // Ass
   // create three component for each card 
   // use one css module for the three card
   return (
-    <>
+    <div className={`app ${theme}`}>
       {/* <UsestateComponent />
       <Userlist />
       <div className="container">
@@ -50,7 +52,7 @@ function App() {
       </Routes>
 
 
-    </>
+    </div>
   )
 }
 

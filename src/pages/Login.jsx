@@ -1,10 +1,11 @@
 /* eslint-disable no-unused-vars */
 import { zodResolver } from '@hookform/resolvers/zod';
-import React, {  useState } from 'react'
+import React, {  useContext, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import z from 'zod';
 import { publicInstance } from '../api/api';
+import authContext from '../context/authContext';
 
 
 export const Login = () => {
@@ -12,6 +13,7 @@ export const Login = () => {
     const [disabled, setDisabled] = useState(false);
     const navigate = useNavigate()
     const [errorMessage, seterrorMessage] = useState("");
+    const {login}= useContext(authContext)
 
 
 
@@ -30,16 +32,21 @@ export const Login = () => {
 
 
     const onSubmit = async (data) => {
-        console.log('logging use in....');
+        // console.log('logging use in....');
 
 
         try {
             const response = await publicInstance.post("api/auth/login", data)
             console.log(response.data);
-            if(response){
-                localStorage.setItem("token", response?.data?.token)
+            if(response || response.data){
+                const user = response?.data?.user
+                const token = response?.data?.token
+               login({user, token})
+
+               navigate("/")
             }
-            navigate("/product")
+         
+
 
 
 
